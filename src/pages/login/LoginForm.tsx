@@ -8,9 +8,10 @@ import SignUpRedirect from '../../components/signUpRedirect/SignUpRedirect';
 
 type Props = {
   onSubmit: (values: LoginType) => void;
+  error: string;
 };
 
-const LoginForm: FC<Props> = ({ onSubmit }) => {
+const LoginForm: FC<Props> = ({ onSubmit, error }) => {
   const [instance, setInstance] = useState('');
   const [token, setToken] = useState('');
 
@@ -34,6 +35,7 @@ const LoginForm: FC<Props> = ({ onSubmit }) => {
           }}
         />
       </div>
+      {!!error && <div className={styles.error}>{error}</div>}
       <div className={styles.submit}>
         <Button
           variant="contained"

@@ -1,4 +1,4 @@
-import { FC } from 'react';
+import { FC, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import LoginForm from './LoginForm';
 import { sendAuthData } from '../../api/login';
@@ -8,6 +8,7 @@ import styles from './Login.module.css';
 
 const Login: FC = () => {
   const href = useNavigate();
+  const [error, setError] = useState('');
 
   const handleLogin = (values: LoginType) => {
     sendAuthData(values).then((response) => {
@@ -16,6 +17,7 @@ const Login: FC = () => {
         href('/chat');
       } else {
         console.error('error', response);
+        setError('Error! Check the entered data');
       }
     });
   };
@@ -25,7 +27,7 @@ const Login: FC = () => {
       <div className={styles.login}>
         <div className={styles.loginForm}>
           <h1 className={styles.title}>Account login</h1>
-          <LoginForm onSubmit={handleLogin} />
+          <LoginForm onSubmit={handleLogin} error={error} />
         </div>
       </div>
     </div>
