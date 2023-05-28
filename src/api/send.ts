@@ -1,13 +1,18 @@
 import axios from 'axios';
 import { axiosBase } from './';
 
-export const sendMessage = async () => {
+export const sendMessage = async (
+  phone: string,
+  message: string,
+  instance: string,
+  token: string
+) => {
   try {
     const response = await axiosBase.post(
-      'waInstance1101824470/sendMessage/7eed583a9efe4957b1f0e51572e5f70183ef510536654d4e9a',
+      `waInstance${instance}/sendMessage/${token}`,
       {
-        chatId: '393802907975@c.us',
-        message: 'tejknst',
+        chatId: `${phone}@c.us`,
+        message,
       }
     );
     return response.status;

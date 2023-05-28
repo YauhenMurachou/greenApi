@@ -14,6 +14,8 @@ const Login: FC = () => {
     sendAuthData(values).then((response) => {
       if (response === 200) {
         localStorage.setItem('isAuth', JSON.stringify(true));
+        localStorage.setItem('instance', JSON.stringify(values.instance));
+        localStorage.setItem('token', JSON.stringify(values.token));
         href('/chat');
       } else {
         console.error('error', response);
