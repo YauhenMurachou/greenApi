@@ -1,0 +1,9 @@
+.addMessageForm {
+	border-top: 2px solid var(--blue-light);
+	padding: 0 1rem;
+}
+
+.addMessageForm :global .MuiOutlinedInput-root {
+	background-color: var(--white-main);
+	margin: 1rem 0;
+}

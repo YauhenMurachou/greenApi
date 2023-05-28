@@ -28,3 +28,9 @@ export type MessageType = {
     };
   };
 };
+
+export type LocalMessageType = {
+  message: string;
+  id: string;
+  sent?: boolean;
+};

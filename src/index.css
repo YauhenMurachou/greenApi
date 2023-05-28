@@ -22,3 +22,11 @@
 
 	--green-light: #4bb34b;
 }
+
+* {
+	padding: 0;
+	margin: 0;
+	border: 0;
+	box-sizing: border-box;
+	list-style: none;
+}
