@@ -1,34 +1,46 @@
 import { ChangeEvent, useEffect, useState } from 'react';
 import { sendMessage } from '../../api/send';
-import { deleteNotification, receiveMessage } from '../../api/receive';
-import { TextField } from '@mui/material';
-import { MessageType } from '../../types';
+import { receiveMessage } from '../../api/receive';
+import { deleteNotification } from '../../api/delete';
+import { Button, TextField } from '@mui/material';
+import { LocalMessageType, MessageType } from '../../types';
+import ChatAside from '../../components/chatAside/ChatAside';
+import MessagesHeader from '../../components/messagesHeader/MessagesHeader';
+import { MessagesList } from '../../components/messagesList/MessagesList';
+import { SendMessageForm } from '../../components/sendMessageForm/SendMessageForm';
 
 import styles from './Chat.module.css';
 
-const regex = /^[0-9]{11,}$/;
+const checkPhone = /^[0-9]{11,}$/;
+
+type SendResponseType = {
+  idMessage: string;
+};
 
 const Chat = () => {
   const [phone, setPhone] = useState('');
   const [error, setError] = useState('');
   const [message, setMessage] = useState('');
-  const [messagesList, setMessagesList] = useState<string[]>([]);
-  const [dialog, setDialog] = useState(false);
+  const [messagesList, setMessagesList] = useState<LocalMessageType[]>([]);
+  const [dialogs, setDialogs] = useState<string[]>([]);
   const instance = JSON.parse(localStorage.getItem('instance') as string);
   const token = JSON.parse(localStorage.getItem('token') as string);
 
   const createDialog = () => {
-    if (!regex.test(phone)) {
+    if (!checkPhone.test(phone)) {
       setError('Invalid phone number');
     } else {
-      setDialog(true);
+      setDialogs((prevState) => [...prevState, phone]);
       setError('');
     }
   };
 
   const handleMessage = () => {
-    sendMessage(phone, message, instance, token).then(() =>
-      setMessagesList([...messagesList, message])
+    sendMessage(phone, message, instance, token).then(
+      (response: SendResponseType) => {
+        const newMessage = { id: response.idMessage, sent: true, message };
+        setMessagesList([...messagesList, newMessage]);
+      }
     );
     setMessage('');
   };
@@ -42,65 +54,67 @@ const Chat = () => {
           }
         });
         setMessagesList((prevState) => {
-          if (!prevState.includes(response.body.idMessage)) {
-            return [...prevState, response.body.idMessage];
+          if (
+            !prevState.some((message) => message.id === response.body.idMessage)
+          ) {
+            const newMessage = {
+              id: response.body.idMessage,
+              message: response.body.messageData.textMessageData.textMessage,
+            };
+            return [...prevState, newMessage];
           }
           return prevState;
         });
-        //
       }
     });
   };
 
-  // useEffect(() => {
-  //   const intervalId = setInterval(() => {
-  //     handleReceiveMessage();
-  //   }, 5000); // fetch messages every 5 seconds
+  useEffect(() => {
+    const intervalId = setInterval(() => {
+      handleReceiveMessage();
+    }, 5000);
 
-  //   return () => clearInterval(intervalId); // cleanup function to clear interval
-  // }, []);
+    return () => clearInterval(intervalId);
+  }, []);
 
   return (
-    <>
-      WhatsApp messages
-      <div>
-        <TextField
-          label="Enter phone"
-          value={phone}
-          onChange={(event: ChangeEvent<HTMLInputElement>) => {
-            setPhone(event.target.value);
-          }}
-        />
-        {!!error && <div className={styles.error}>{error}</div>}
-      </div>
-      <div>
-        <button onClick={createDialog}>create dialog</button>
-      </div>
-      {dialog && (
-        <div>
-          <TextField
-            label="Message"
-            placeholder="Enter your message"
-            value={message}
-            onChange={(event: ChangeEvent<HTMLInputElement>) => {
-              setMessage(event.target.value);
-            }}
-          />
+    <div className={styles.wrapper}>
+      <ChatAside dialogs={dialogs} />
+      <div className={styles.rightBlock}>
+        <div className={styles.creation}>
           <div>
-            <button onClick={handleMessage}>send message</button>
+            <TextField
+              label="Enter phone"
+              value={phone}
+              onChange={(event: ChangeEvent<HTMLInputElement>) => {
+                setPhone(event.target.value);
+              }}
+            />
+            <div className={styles.error}>{error ?? ''}</div>
+          </div>
+          <div>
+            <Button
+              onClick={createDialog}
+              variant="contained"
+              disabled={!phone}
+            >
+              create dialog
+            </Button>
           </div>
         </div>
-      )}
-      <h4>messages:</h4>
-      <ul>
-        {messagesList.map((message, index) => (
-          <li key={index}>{message}</li>
-        ))}
-      </ul>
-      <div>
-        <button onClick={handleReceiveMessage}>receive message</button>
+        {!!dialogs.length && (
+          <div>
+            <MessagesHeader userName={phone} />
+            <MessagesList messages={messagesList} />
+            <SendMessageForm
+              sendMessage={handleMessage}
+              message={message}
+              setMessage={setMessage}
+            />
+          </div>
+        )}
       </div>
-    </>
+    </div>
   );
 };
 

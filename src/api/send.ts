@@ -15,7 +15,7 @@ export const sendMessage = async (
         message,
       }
     );
-    return response.status;
+    return response.data;
   } catch (error) {
     return axios.isAxiosError(error);
   }

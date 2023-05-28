@@ -1,0 +1,6 @@
+.wrapper {
+	width: 20%;
+	background-color: var(--bg-light);
+	height: 100vh;
+	padding: 1rem;
+}

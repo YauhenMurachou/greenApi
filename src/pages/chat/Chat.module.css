@@ -1,3 +1,18 @@
+.wrapper {
+	display: flex;
+	width: 100%;
+}
+
+.rightBlock {
+	padding: 1rem;
+	width: 80%;
+}
+
+.creation {
+	display: flex;
+	column-gap: 1rem;
+}
+
 .error {
 	color: var(--red-main);
 }
