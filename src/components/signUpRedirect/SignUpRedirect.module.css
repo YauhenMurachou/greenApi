@@ -1,0 +1,9 @@
+.redirect {
+	display: flex;
+	justify-content: space-around;
+}
+
+.registration {
+	text-transform: uppercase;
+	color: var(--blue-main);
+}

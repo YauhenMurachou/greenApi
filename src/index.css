@@ -1,1 +1,24 @@
+:root {
+	--red-main: rgb(230, 80, 80);
 
+	--blue-main: #6e6ef8;
+	--blue-light: #b6c3d1;
+
+	--white-main: #FFFFFF;
+
+	--bg-light: rgb(244, 238, 242);
+	--bg-light-2: #F5F5F5;
+	--bg-light-3: rgb(239, 231, 236);
+	--bg-light-4: #e6e4e9;
+
+	--grey-main-2: rgba(110, 116, 134, 0.24);
+
+	--grey-light: #939393;
+	--grey-light-2: #79747E;
+	--grey-light-3: #dbe0e4;
+	--grey-light-4: #e9ecef;
+
+	--grey-dark: #293138;
+
+	--green-light: #4bb34b;
+}

@@ -1,0 +1,47 @@
+.container {
+	position: absolute;
+	top: 0;
+	bottom: 0;
+	left: 0;
+	right: 0;
+	background-color: var(--bg-light-2);
+}
+
+.login {
+	margin: 25vh auto 0 auto;
+	background-color: var(--white-main);
+	max-width: 28.75rem;
+	border-radius: 0.5rem;
+	box-shadow: 0px 1rem 1.5rem var(--grey-main-2);
+}
+
+.loginForm {
+	padding: 1rem 2rem;
+	margin: 0 auto;
+}
+
+.title {
+	margin-bottom: 1rem;
+}
+
+.field {
+	margin-bottom: 0.75rem;
+}
+
+.field :global .MuiTextField-root {
+	margin-bottom: 0.75rem;
+	width: 100%;
+}
+
+.error {
+	color: var(--red-main);
+}
+
+.submit {
+	width: 100%;
+	margin-bottom: 0.75rem;
+}
+
+.submit button {
+	width: 100%;
+}
