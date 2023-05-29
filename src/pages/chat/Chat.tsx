@@ -46,9 +46,9 @@ const Chat = () => {
   };
 
   const handleReceiveMessage = () => {
-    receiveMessage().then((response: MessageType) => {
+    receiveMessage(instance, token).then((response: MessageType) => {
       if (response) {
-        deleteNotification(response.receiptId).then(() => {
+        deleteNotification(response.receiptId, instance, token).then(() => {
           if (response) {
             handleReceiveMessage();
           }

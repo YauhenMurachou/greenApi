@@ -1,10 +1,10 @@
 import axios from 'axios';
 import { axiosBase } from './';
 
-export const receiveMessage = async () => {
+export const receiveMessage = async (instance: string, token: string) => {
   try {
     const response = await axiosBase.get(
-      'waInstance1101824470/receiveNotification/7eed583a9efe4957b1f0e51572e5f70183ef510536654d4e9a',
+      `waInstance${instance}/receiveNotification/${token}`,
       {
         headers: {
           'Access-Control-Allow-Origin': '*',
